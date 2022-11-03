@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import GoogleLogin from 'react-google-login'
 import { useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
+import jwt_decode from 'jwt-decode'
 const shareVideo = require('../assets/share.mp4')
 const logo = require('../assets/logowhite.png')
 
@@ -24,6 +25,25 @@ const Login = () => {
       );
   }, [])
   
+  const handleCallbackResponse = (response: GoogleResponse) =>
+    {
+        localStorage.setItem('user', JSON.stringify(jwt_decode(response.credential)));
+        const obj: DecodedCredentials = jwt_decode(response.credential)
+        const { name, picture, sub } = obj;
+
+        const doc = {
+            _id: sub,
+            _type: 'user',
+            userName: name,
+            image: picture
+        }
+
+        client.createIfNotExists(doc)
+            .then(() =>
+            {
+                navigate('/', { replace: true })
+            })
+    }
 
   return (
     <div className="flex justify-start item-center flex-col h-screen">

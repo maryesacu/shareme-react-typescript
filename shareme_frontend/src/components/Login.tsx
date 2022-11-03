@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import GoogleLogin from 'react-google-login'
 import { useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
@@ -10,6 +10,20 @@ const Login = () => {
   const responseGoogle = (response: any) => {
     console.log(response)
   }
+  const navigate = useNavigate();
+  useEffect(() =>
+  {
+      /*global google*/
+      google.accounts.id.initialize({
+          client_id: process.env.REACT_APP_GOOGLE_API_TOKEN,
+      });
+
+      google.accounts.id.renderButton(
+          document.getElementById("signInDiv"),
+          { theme: "outline", size: "large" }
+      );
+  }, [])
+  
 
   return (
     <div className="flex justify-start item-center flex-col h-screen">

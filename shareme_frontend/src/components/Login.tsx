@@ -2,48 +2,31 @@ import React, { useEffect } from 'react'
 import GoogleLogin from 'react-google-login'
 import { useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
-import jwt_decode from 'jwt-decode'
+import { client } from '../client'
 const shareVideo = require('../assets/share.mp4')
 const logo = require('../assets/logowhite.png')
 
 const Login = () => {
-  
+  const navigate = useNavigate()
   const responseGoogle = (response: any) => {
+    localStorage.setItem('user', JSON.stringify(response.profileObj))
+
+    const { name, googleId, imageUrl } = response.profileObj
+    
+    const doc = {
+      _id: googleId,
+      _type: 'user',
+      userName: name,
+      image: imageUrl
+  }
+
+  client.createIfNotExists(doc)
+    .then(() =>
+    {
+        navigate('/', { replace: true })
+    }) 
     console.log(response)
   }
-  const navigate = useNavigate();
-  useEffect(() =>
-  {
-      /*global google*/
-      google.accounts.id.initialize({
-          client_id: process.env.REACT_APP_GOOGLE_API_TOKEN,
-      });
-
-      google.accounts.id.renderButton(
-          document.getElementById("signInDiv"),
-          { theme: "outline", size: "large" }
-      );
-  }, [])
-  
-  const handleCallbackResponse = (response: GoogleResponse) =>
-    {
-        localStorage.setItem('user', JSON.stringify(jwt_decode(response.credential)));
-        const obj: DecodedCredentials = jwt_decode(response.credential)
-        const { name, picture, sub } = obj;
-
-        const doc = {
-            _id: sub,
-            _type: 'user',
-            userName: name,
-            image: picture
-        }
-
-        client.createIfNotExists(doc)
-            .then(() =>
-            {
-                navigate('/', { replace: true })
-            })
-    }
 
   return (
     <div className="flex justify-start item-center flex-col h-screen">

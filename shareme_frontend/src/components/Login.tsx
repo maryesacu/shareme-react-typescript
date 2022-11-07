@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
-//import { render } from '@testing-library/react';
+import shareVideo from '../assets/share.mp4';
+import logo from '../assets/logowhite.png';
 import { client } from '../client'
 import { DecodedCredentials, GoogleResponse } from '../types/googleAuthInterfaces'
-const shareVideo = require('../assets/share.mp4')
-const logo = require('../assets/logowhite.png')
 
 const Login = () =>
 {
@@ -26,6 +25,7 @@ const Login = () =>
 
     const handleCallbackResponse = (response: GoogleResponse) =>
     {
+        console.log(response)
         localStorage.setItem('user', JSON.stringify(jwt_decode(response.credential)));
         const obj: DecodedCredentials = jwt_decode(response.credential)
         const { name, picture, sub } = obj;

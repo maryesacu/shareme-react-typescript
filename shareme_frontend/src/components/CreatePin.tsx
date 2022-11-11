@@ -24,7 +24,7 @@ const CreatePin = (props: { user: FetchedUser }) =>
     {
         const { type, name } = e.target.files[0];
 
-        if (type === 'image/png' || type === 'image/svg' || type === 'image/jpeg')
+        if (type === 'image/png' || type === 'image/svg' || type === 'image/jpeg' || type === 'image/gif' || type === 'image/tiff')
         {
             setWrongImageType(false)
             setLoading(true)
@@ -35,6 +35,9 @@ const CreatePin = (props: { user: FetchedUser }) =>
                 {
                     setImageAsset(document)
                     setLoading(false)
+                })
+                .catch((error) => {
+                    console.log('Image upload error: ', error)
                 })
         } else
         {
@@ -83,7 +86,7 @@ const CreatePin = (props: { user: FetchedUser }) =>
                 <p className="text-red-500 mb-5 text-xl transition-all duration-150 ease-in">Please fill all the fields.</p>
             )}
             <div className="flex lg:flex-row flex-col justify-center items-center bg-white lg:p-5 p-3 lg:w-4/5 w-full">
-                <div className="bg-secondaryColor p-3 flex flex-0 7 w-full">
+                <div className="bg-secondaryColor p-3 flex flex-0.7 w-full">
                     <div className="flex justify-center items-center flex-col border-2 border-dotted border-gray-300 p-3 w-full h-420">
                         {loading && <Spinner message='Loading' />}
                         {wrongImageType && <p>Wrong image type</p>}
@@ -124,7 +127,7 @@ const CreatePin = (props: { user: FetchedUser }) =>
                     <input type="text"
                         value={title}
                         onChange={(e: any) => setTitle(e.target.value)}
-                        placeholder="Add your title"
+                        placeholder="Add your title here"
                         className='outline-none text-2xl sm:text-3xl font-bold border-b-2 border-gray-200 p-2'
                     />
                     {props.user && (
@@ -136,7 +139,7 @@ const CreatePin = (props: { user: FetchedUser }) =>
                     <input type="text"
                         value={about}
                         onChange={(e: any) => setAbout(e.target.value)}
-                        placeholder="Add your about"
+                        placeholder="What is your pin about"
                         className='outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2'
                     />
                     <input type="text"
@@ -154,7 +157,6 @@ const CreatePin = (props: { user: FetchedUser }) =>
                             >
                                 <option value="other" className='bg-white'>Select Category</option>
                                 {categories.map((category: any) =>
-
                                     <option className='text-base border-0 outline-none capitalize bg-white text-black' value={category.name}>{category.name}</option>
                                 )}
                             </select>

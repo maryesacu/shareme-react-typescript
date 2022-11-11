@@ -45,26 +45,18 @@ const PinDetail = (props: { user: FetchedUser }) =>
         }
     }
 
-    const fetchPinDetails = () =>
-    {
+    const fetchPinDetails = () => {
         let query = pinDetailQuery(pinId!);
 
-        if (query)
-        {
+        if(query) {
             client.fetch(query)
-                .then((data: any) =>
-                {
-
+                .then((data: any) => {
                     setPinDetail(data[0])
-                    if (data[0])
-                    {
+
+                    if(data[0]) {
                         query = pinDetailMorePinQuery(data[0])
                         client.fetch(query)
-                            .then((res: any) =>
-                            {
-
-                                setPins(res)
-                            })
+                            .then((res: any) => setPins(res))
                     }
                 })
 
@@ -83,8 +75,11 @@ const PinDetail = (props: { user: FetchedUser }) =>
             <div className='flex xl-flex-row flex-col m-auto bg-white'
                 style={{ maxWidth: '1500px', borderRadius: '32px' }}>
                 <div className="flex flex-col justify-center items-center md:items-start flex-initial">
-                    <img src={pinDetail?.image && urlFor(pinDetail.image).url()} alt="s"
-                        className='rounded-t-3xl rounded-b-lg ' />
+                    <img
+                        src={pinDetail?.image && urlFor(pinDetail.image).url()}
+                        className="rounded-t-3xl rounded-b-lg"
+                        alt="user-post"
+                    />
                     <div className="w-full p-5 flex-1 xl:min-w-620">
                         <div className="flex items-center justify-between">
                             <div className="flex gap-2 items-center">
@@ -96,7 +91,7 @@ const PinDetail = (props: { user: FetchedUser }) =>
                                     <MdDownloadForOffline />
                                 </a>
                             </div>
-                            <a href={pinDetail.destination} target='_blank' rel='norefferer'>
+                            <a href={pinDetail.destination} target='_blank' rel="noopener noreferrer">
                                 {pinDetail.destination}
                             </a>
                         </div>
@@ -107,7 +102,7 @@ const PinDetail = (props: { user: FetchedUser }) =>
                             <p className="mt-3">{pinDetail.about}</p>
                         </div>
                         <Link
-                            to={`user-profile/${pinDetail.postedBy}`}
+                            to={`user-profile/${pinDetail.postedBy._id}`}
                             className="flex gap-2 mt-5 items-center bg-white rounded-lg"
                         >
                             <img src={pinDetail.postedBy?.image} alt="user-profile" className="w-8 h-8 rounded-full object-cover" />

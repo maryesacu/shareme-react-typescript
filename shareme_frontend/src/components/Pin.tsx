@@ -59,8 +59,8 @@ const Pin = (props: { pin: SearchedPins }) =>
                 <img className='rounded-lg w-full' src={urlFor(props.pin.image).width(250).url()} alt="user-post" />
                 {postHovered && (
                     <div
-                        className='absolute top-0 flex flex-col justify-between p-1 pr-2 pt-2 pb-2 '
-                        style={{ height: '100%', width: '100%' }}
+                        className='absolute top-0 w-full h-full flex flex-col justify-between p-1 pr-2 pt-2 pb-2 z-50'
+                        style={{ height: '100%'}}
                     >
                         <div className="flex items-center justify-between">
                             <div className="flex gap-2">

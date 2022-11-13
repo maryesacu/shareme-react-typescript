@@ -138,7 +138,7 @@ const PinDetail = (props: { user: FetchedUser }) =>
             </div>
             {pins.length > 0 ? (
                 <>
-                    <h2 className="text-center font-bold text-2x">
+                    <h2 className="text-center font-bold text-2x mt-8 nb-4">
                         More like this
                     </h2>
                     <MasonryLayout pins={pins} />

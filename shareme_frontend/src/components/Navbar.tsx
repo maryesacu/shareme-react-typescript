@@ -14,6 +14,7 @@ const Navbar = (props: { user: FetchedUser, searchTerm: string, setSearchTerm: R
                 <input
                     type='text'
                     onChange={(e) => props.setSearchTerm(e.target.value)}
+                    placeholder="Search"
                     value={props.searchTerm}
                     onFocus={() => navigate('/search')}
                     className="p-2 w-full bg-white outline-none"
